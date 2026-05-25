@@ -5,9 +5,17 @@ import http.server
 import json
 import os
 
+import shutil
+
 PORT = int(os.environ.get("PORT", 8900))
 DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(DIR, "data.json")
+DEFAULT_FILE = os.path.join(DIR, "data.json.default")
+
+# Auto-create data.json from defaults on first run
+if not os.path.exists(DATA_FILE) and os.path.exists(DEFAULT_FILE):
+    shutil.copy2(DEFAULT_FILE, DATA_FILE)
+    print(f"Created {DATA_FILE} from defaults")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
