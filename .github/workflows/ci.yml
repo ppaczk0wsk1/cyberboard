@@ -52,10 +52,6 @@ jobs:
           # Which Python version to install.
           python-version: "3.12"
 
-          # Cache pip's download cache between runs.
-          # Uses the hash of requirements.txt as the cache key.
-          cache: "pip"
-
       # Lint with ruff - an extremely fast Python linter (written in Rust).
       # "ruff check" finds errors, "ruff format --check" verifies formatting
       # without changing files (exits non-zero if formatting is off).
