@@ -1,6 +1,6 @@
 # Cyberboard
 
-A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — all from a single HTML page backed by a JSON file.
+A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes. All from a single HTML page backed by a JSON file.
 
 ![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
