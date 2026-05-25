@@ -1,7 +1,28 @@
-const CACHE_NAME = 'homelab-dash-v1';
+const CACHE_NAME = 'cyberboard-v4';
 const ASSETS = [
   './dashboard.html',
-  './manifest.json'
+  './style.css',
+  './app.js',
+  './manifest.json',
+  './lib/preact.js',
+  './lib/icons.js',
+  './lib/context.js',
+  './lib/constants.js',
+  './lib/data.js',
+  './components/Header.js',
+  './components/Weather.js',
+  './components/SearchBar.js',
+  './components/StatsBar.js',
+  './components/FilterTabs.js',
+  './components/Section.js',
+  './components/ServiceCard.js',
+  './components/TutorialCard.js',
+  './components/BookmarkItem.js',
+  './components/Modal.js',
+  './components/Notepad.js',
+  './components/Toolbar.js',
+  './components/DynamicIcon.js',
+  './components/IconPicker.js',
 ];
 
 self.addEventListener('install', e => {
@@ -21,8 +42,6 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Network-first for the dashboard itself so edits are picked up immediately,
-  // falling back to cache when offline.
   e.respondWith(
     fetch(e.request)
       .then(res => {

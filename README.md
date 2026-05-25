@@ -47,17 +47,44 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 
 ```
 cyberboard/
-├── dashboard.html       # The dashboard UI (single-page app)
-├── data.json            # All data (services, tutorials, bookmarks, notes)
-├── data.json.default    # Pristine defaults (used by "Reset to Defaults")
-├── server.py            # Zero-dependency Python HTTP server
-├── manifest.json        # PWA manifest
-├── sw.js                # Service worker for offline caching
-├── Dockerfile           # Container image definition
-├── docker-compose.yml   # Compose config with volume mount
-├── .dockerignore
+├── dashboard.html           # Minimal HTML shell + import map
+├── style.css                # All styles
+├── app.js                   # Root Preact component + mount
+├── lib/
+│   ├── preact.js            # Preact/HTM re-exports
+│   ├── icons.js             # Lucide icon re-exports
+│   ├── context.js           # AppContext + constants
+│   └── data.js              # Data loading, saving, helpers
+├── components/
+│   ├── Header.js            # Header + Clock
+│   ├── Weather.js           # Weather widget
+│   ├── SearchBar.js         # Search input
+│   ├── StatsBar.js          # Stats cards
+│   ├── FilterTabs.js        # Category filter tabs
+│   ├── Section.js           # Collapsible section wrapper
+│   ├── ServiceCard.js       # Service card (favicon, health, drag)
+│   ├── TutorialCard.js      # Tutorial card
+│   ├── BookmarkItem.js      # Bookmark link
+│   ├── Modal.js             # Add/edit modal form
+│   ├── Notepad.js           # Scratchpad / network notes
+│   └── Toolbar.js           # SaveStatus, DataActions, InstallButton
+├── data.json                # All user data (gitignored)
+├── data.json.default        # Pristine defaults for reset
+├── server.py                # Zero-dependency Python server
+├── manifest.json            # PWA manifest
+├── sw.js                    # Service worker
+├── Dockerfile
+├── docker-compose.yml
 └── README.md
 ```
+
+## Tech Stack
+
+- **[Preact](https://preactjs.com/)** — lightweight React alternative (3KB)
+- **[HTM](https://github.com/developit/htm)** — tagged template JSX alternative (no build step)
+- **[Lucide](https://lucide.dev/)** — clean SVG icon library (tree-shakeable)
+- **Import Maps** — bare specifier imports, no bundler needed
+- All loaded from [esm.sh](https://esm.sh/) CDN — zero `npm install`
 
 ## How It Works
 

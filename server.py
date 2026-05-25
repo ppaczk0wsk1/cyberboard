@@ -4,8 +4,11 @@
 import http.server
 import json
 import os
-
 import shutil
+import ssl
+import urllib.request
+import urllib.error
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 PORT = int(os.environ.get("PORT", 8900))
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,10 +20,66 @@ if not os.path.exists(DATA_FILE) and os.path.exists(DEFAULT_FILE):
     shutil.copy2(DEFAULT_FILE, DATA_FILE)
     print(f"Created {DATA_FILE} from defaults")
 
+# SSL context that accepts self-signed certs (common in homelabs)
+SSL_CTX = ssl.create_default_context()
+SSL_CTX.check_hostname = False
+SSL_CTX.verify_mode = ssl.CERT_NONE
+
+HEALTH_TIMEOUT = int(os.environ.get("HEALTH_TIMEOUT", 5))
+
+
+def check_url(url):
+    """Ping a URL with a HEAD request. Returns True if it responds."""
+    try:
+        req = urllib.request.Request(url, method="HEAD")
+        urllib.request.urlopen(req, timeout=HEALTH_TIMEOUT, context=SSL_CTX)
+        return True
+    except Exception:
+        # HEAD might be rejected — try GET
+        try:
+            req = urllib.request.Request(url, method="GET")
+            urllib.request.urlopen(req, timeout=HEALTH_TIMEOUT, context=SSL_CTX)
+            return True
+        except Exception:
+            return False
+
+
+def run_health_checks():
+    """Read data.json, ping all service URLs in parallel, return results."""
+    try:
+        with open(DATA_FILE) as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+
+    services = data.get("services", [])
+    results = {}
+
+    with ThreadPoolExecutor(max_workers=20) as pool:
+        futures = {pool.submit(check_url, s["url"]): s["id"] for s in services}
+        for future in as_completed(futures):
+            sid = futures[future]
+            try:
+                results[sid] = future.result()
+            except Exception:
+                results[sid] = False
+
+    return results
+
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIR, **kwargs)
+
+    def do_GET(self):
+        if self.path == "/api/health":
+            results = run_health_checks()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(results).encode())
+        else:
+            super().do_GET()
 
     def do_POST(self):
         if self.path == "/api/save":
