@@ -221,22 +221,22 @@ jobs:
   
      steps:
        - uses: actions/checkout@v6
-      - name: Setup SSH
-        run: |
+       - name: Setup SSH
+         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy
-        run: |
+       - name: Deploy
+         run: |
           ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
+          cd ${{ secrets.DEPLOY_DIR }}
 
-            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            docker compose pull
-            docker compose up -d --remove-orphans
+          docker compose pull
+          docker compose up -d --remove-orphans
           EOF
 
   # +-----------------------------------------------------------------------+
