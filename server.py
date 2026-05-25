@@ -6,8 +6,8 @@ import json
 import os
 import shutil
 import ssl
-import urllib.request
 import urllib.error
+import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 PORT = int(os.environ.get("PORT", 8900))
@@ -29,16 +29,21 @@ HEALTH_TIMEOUT = int(os.environ.get("HEALTH_TIMEOUT", 5))
 
 
 def check_url(url):
-    """Ping a URL with a HEAD request. Returns True if it responds."""
+    """Ping a URL. Returns True if the service responds (any HTTP status)."""
     try:
         req = urllib.request.Request(url, method="HEAD")
         urllib.request.urlopen(req, timeout=HEALTH_TIMEOUT, context=SSL_CTX)
         return True
+    except urllib.error.HTTPError:
+        # 401, 403, 500, etc. — service is up, just not giving a 2xx
+        return True
     except Exception:
-        # HEAD might be rejected — try GET
+        # Connection refused, timeout, DNS failure — actually down
         try:
             req = urllib.request.Request(url, method="GET")
             urllib.request.urlopen(req, timeout=HEALTH_TIMEOUT, context=SSL_CTX)
+            return True
+        except urllib.error.HTTPError:
             return True
         except Exception:
             return False
