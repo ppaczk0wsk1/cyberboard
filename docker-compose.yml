@@ -1,0 +1,9 @@
+services:
+  cyberboard:
+    build: .
+    container_name: cyberboard
+    ports:
+      - "8900:8900"
+    volumes:
+      - ./data.json:/app/data.json
+    restart: unless-stopped
