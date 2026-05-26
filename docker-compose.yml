@@ -1,7 +1,7 @@
 services:
   # Default: CDN-backed, smaller image
   cyberboard:
-    build: .
+    image: ghcr.io/ppaczk0wsk1/cyberboard:latest
     container_name: cyberboard
     ports:
       - "8900:8900"
