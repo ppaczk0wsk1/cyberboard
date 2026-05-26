@@ -30,6 +30,7 @@ function App() {
   const [toast, setToast] = useState({ message: '', isError: false });
   const [theme, setThemeState] = useState(localStorage.getItem('theme') || 'dark');
   const [healthStatus, setHealthStatus] = useState({});
+  const [lastCheckTime, setLastCheckTime] = useState(null);
 
   // --- Boot ---
   useEffect(() => {
@@ -69,6 +70,7 @@ function App() {
       try {
         const res = await fetch('/api/health');
         setHealthStatus(await res.json());
+        setLastCheckTime(Date.now());
       } catch {}
     };
     run();
@@ -248,6 +250,7 @@ function App() {
         serviceCount=${data.services.length}
         tutorialCount=${data.tutorials.length}
         onlineCount=${onlineCount}
+        lastCheckTime=${lastCheckTime}
         favoriteCount=${data.favorites.length} />
 
       <${DataActions} />

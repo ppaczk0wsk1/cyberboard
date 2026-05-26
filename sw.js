@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyberboard-v4';
+const CACHE_NAME = 'cyberboard-v5';
 const ASSETS = [
   './dashboard.html',
   './style.css',

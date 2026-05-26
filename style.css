@@ -24,23 +24,25 @@
 }
 
 :root[data-theme="light"] {
-  --bg: #f0f2f5;
-  --surface: #fff;
-  --surface-hover: #f5f6f8;
-  --border: #d8dce5;
-  --text: #1a1d27;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-hover: #f0f4ff;
+  --border: #dfe3ee;
+  --text: #2d3142;
   --text-dim: #6b7085;
-  --accent: #4b6bdf;
-  --accent-glow: rgba(75, 107, 223, 0.15);
-  --green: #16a34a;
-  --yellow: #ca8a04;
-  --red: #dc2626;
-  --orange: #ea580c;
+  --accent: #4f5fd9;
+  --accent-glow: rgba(79, 95, 217, 0.12);
+  --green: #22a55b;
+  --yellow: #d4940a;
+  --red: #dc3545;
+  --orange: #e8651a;
   --purple: #7c3aed;
   --cyan: #0891b2;
   --pink: #db2777;
-  --search-bg: #fff;
-  --modal-bg: rgba(0, 0, 0, 0.4);
+  --search-bg: #ffffff;
+  --modal-bg: rgba(30, 30, 50, 0.35);
+  --card-shadow: 0 1px 4px rgba(45, 49, 66, 0.06);
+  --stat-shadow: 0 1px 6px rgba(79, 95, 217, 0.08);
 }
 
 /* --- Reset & Base --- */
@@ -684,3 +686,48 @@ footer kbd {
   font-size: 0.68rem;
   font-family: inherit;
 }
+
+/* ============================================================
+   Light Mode Enhancements
+   ============================================================ */
+
+/* Shadows & depth */
+[data-theme="light"] .card { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .card:hover { box-shadow: 0 4px 12px rgba(79, 95, 217, 0.12); }
+[data-theme="light"] .card.favorite { background: #fffdf5; }
+[data-theme="light"] .stat-card { box-shadow: 0 1px 6px rgba(79, 95, 217, 0.08); }
+[data-theme="light"] .search-bar input { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .bookmark { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .bookmark:hover { box-shadow: 0 2px 8px rgba(79, 95, 217, 0.1); }
+[data-theme="light"] .filter-tab { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .filter-tab.active { box-shadow: 0 2px 8px rgba(79, 95, 217, 0.25); }
+[data-theme="light"] .notepad { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .hdr-btn { box-shadow: 0 1px 4px rgba(45, 49, 66, 0.06); }
+[data-theme="light"] .modal { box-shadow: 0 8px 32px rgba(45, 49, 66, 0.15); }
+
+/* Card heading color */
+[data-theme="light"] .card-info h3 { color: #1a1d27; }
+
+/* Tinted icon backgrounds */
+[data-theme="light"] .ic-blue { background: #eef2ff; }
+[data-theme="light"] .ic-green { background: #ecfdf5; }
+[data-theme="light"] .ic-orange { background: #fff7ed; }
+[data-theme="light"] .ic-purple { background: #f5f3ff; }
+[data-theme="light"] .ic-cyan { background: #ecfeff; }
+[data-theme="light"] .ic-pink { background: #fdf2f8; }
+[data-theme="light"] .ic-red { background: #fef2f2; }
+[data-theme="light"] .ic-yellow { background: #fefce8; }
+
+/* Weather widget tint */
+[data-theme="light"] .weather-widget {
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+  border-color: #bae6fd;
+}
+[data-theme="light"] .weather-temp { color: #0c4a6e; }
+[data-theme="light"] .weather-desc { color: #0369a1; }
+
+/* Unknown status dot — neutral gray instead of yellow */
+[data-theme="light"] .status-dot.unknown { background: #d4d4d8; }
+
+/* Footer kbd */
+[data-theme="light"] footer kbd { background: var(--surface); }

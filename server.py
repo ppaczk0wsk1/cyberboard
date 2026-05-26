@@ -20,6 +20,7 @@ if not os.path.exists(DATA_FILE) and os.path.exists(DEFAULT_FILE):
     shutil.copy2(DEFAULT_FILE, DATA_FILE)
     print(f"Created {DATA_FILE} from defaults")
 
+
 # SSL context that accepts self-signed certs (common in homelabs)
 SSL_CTX = ssl.create_default_context()
 SSL_CTX.check_hostname = False
@@ -75,6 +76,12 @@ def run_health_checks():
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIR, **kwargs)
+
+    def handle(self):
+        try:
+            super().handle()
+        except BrokenPipeError:
+            pass  # Browser closed connection early — harmless
 
     def do_GET(self):
         if self.path == "/api/health":
