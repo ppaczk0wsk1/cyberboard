@@ -1,0 +1,22 @@
+FROM python:3-alpine
+WORKDIR /app
+
+# Copy application files
+COPY server.py dashboard.html style.css app.js manifest.json sw.js data.json.default ./
+COPY favicon.svg icon-192.png icon-512.png ./
+COPY lib/ ./lib/
+COPY components/ ./components/
+COPY vendor-download.py ./
+
+# Download vendor dependencies and patch import map for offline use
+RUN python3 vendor-download.py && rm vendor-download.py
+RUN sed -i \
+    -e 's|https://esm.sh/preact@10|./vendor/preact.js|' \
+    -e 's|https://esm.sh/preact@10/hooks|./vendor/preact-hooks.js|' \
+    -e 's|https://esm.sh/htm@3|./vendor/htm.js|' \
+    -e 's|https://esm.sh/lucide-preact@0.474.0?external=preact|./vendor/lucide-preact.js|' \
+    dashboard.html
+
+RUN cp data.json.default data.json
+EXPOSE 8900
+CMD ["python3", "server.py"]

@@ -1,6 +1,6 @@
 # Cyberboard
 
-A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — all from a single HTML page backed by a JSON file.
+A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — built with Preact, backed by a JSON file, no build step.
 
 ![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
@@ -16,25 +16,29 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 ## Features
 
 **Services Dashboard**
+
 - 41 pre-configured homelab services (Linkwarden, Vaultwarden, Nextcloud, Jellyfin, Grafana, and more)
-- Health check pings with live status dots (green/red)
+- Server-side health checks with live status dots (green/red) — works with HTTPS, self-signed certs, auth-protected services
 - Auto-refresh every 60 seconds
 - Category filter tabs (Productivity, Media, Infrastructure, Security, Monitoring, Development, Networking, Storage, Automation)
 - Favorite services with a star — highlighted with a yellow border
 
 **Tutorials & Learning**
+
 - 28 tutorial cards covering Terraform, Kubernetes, Docker, CI/CD, Ansible, Linux networking, and more
 - Searchable and filterable alongside services
 
 **Built-in Editor** (press `E` or click the pencil icon)
+
 - Add, edit, and delete services, tutorials, and bookmarks
 - Drag-and-drop to reorder cards
-- Emoji icon picker and color selector
+- Searchable emoji picker (250+ emojis organized by category) and color selector
 - Fetch favicons from service URLs to replace emoji icons
 - Export/import JSON backups
 - Reset to defaults
 
 **Extras**
+
 - Search across everything with `/`
 - Light/dark theme toggle (`T`)
 - Weather widget (via wttr.in, no API key)
@@ -47,25 +51,67 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 
 ```
 cyberboard/
-├── dashboard.html       # The dashboard UI (single-page app)
-├── data.json            # All data (services, tutorials, bookmarks, notes)
-├── data.json.default    # Pristine defaults (used by "Reset to Defaults")
-├── server.py            # Zero-dependency Python HTTP server
-├── manifest.json        # PWA manifest
-├── sw.js                # Service worker for offline caching
-├── Dockerfile           # Container image definition
-├── docker-compose.yml   # Compose config with volume mount
-├── .dockerignore
+├── dashboard.html           # HTML shell + import map
+├── style.css                # All styles
+├── app.js                   # Root Preact component + mount
+├── lib/
+│   ├── preact.js            # Preact/HTM re-exports
+│   ├── icons.js             # Lucide icon re-exports (UI chrome)
+│   ├── context.js           # AppContext
+│   ├── constants.js         # Emojis, colors, categories
+│   └── data.js              # Data loading, saving, helpers
+├── components/
+│   ├── Header.js            # Header + Clock
+│   ├── Weather.js           # Weather widget
+│   ├── SearchBar.js         # Search input
+│   ├── StatsBar.js          # Stats cards
+│   ├── FilterTabs.js        # Category filter tabs
+│   ├── Section.js           # Collapsible section wrapper
+│   ├── ServiceCard.js       # Service card (favicon, health, drag)
+│   ├── TutorialCard.js      # Tutorial card
+│   ├── BookmarkItem.js      # Bookmark link
+│   ├── Modal.js             # Add/edit modal form
+│   ├── IconPicker.js        # Searchable emoji picker
+│   ├── DynamicIcon.js       # Emoji renderer
+│   ├── Notepad.js           # Scratchpad / network notes
+│   └── Toolbar.js           # SaveStatus, DataActions, InstallButton
+├── data.json                # All user data (gitignored)
+├── data.json.default        # Pristine defaults for reset
+├── server.py                # Zero-dependency Python server
+├── manifest.json            # PWA manifest
+├── sw.js                    # Service worker
+├── favicon.svg              # SVG favicon
+├── icon-192.png             # PWA icon 192x192
+├── icon-512.png             # PWA icon 512x512
+├── Dockerfile
+├── docker-compose.yml
+├── ARCHITECTURE.md          # Full execution flow walkthrough
 └── README.md
 ```
 
+## Tech Stack
+
+- **[Preact](https://preactjs.com/)** — lightweight React alternative (3KB)
+- **[HTM](https://github.com/developit/htm)** — tagged template JSX alternative (no build step)
+- **[Lucide](https://lucide.dev/)** — clean SVG icon library (tree-shakeable)
+- **Import Maps** — bare specifier imports, no bundler needed
+- All loaded from [esm.sh](https://esm.sh/) CDN — zero `npm install`
+
 ## How It Works
 
-`server.py` is a minimal Python HTTP server (stdlib only, no pip installs) that:
-- Serves static files from the project directory
-- Exposes `POST /api/save` to write changes back to `data.json`
+`server.py` is a minimal Python HTTP server (stdlib only, no pip installs) with three endpoints:
 
-The dashboard loads `data.json` on startup and sends a `POST /api/save` whenever you make a change (debounced 400ms). All data lives in one JSON file — easy to back up, version control, or sync.
+| Endpoint      | Method | Purpose                                                      |
+| ------------- | ------ | ------------------------------------------------------------ |
+| `/*`          | GET    | Serve static files (HTML, CSS, JS)                           |
+| `/api/health` | GET    | Ping all service URLs server-side, return `{id: true/false}` |
+| `/api/save`   | POST   | Write the full JSON body to `data.json`                      |
+
+Health checks run server-side in parallel (up to 20 threads), accept self-signed certs, and treat any HTTP response (including 401/403) as "online." Only connection failures and timeouts mean "down."
+
+The dashboard loads `data.json` on startup and sends `POST /api/save` whenever you make a change (debounced 400ms). All data lives in one JSON file — easy to back up, version control, or sync.
+
+For a detailed walkthrough of the full execution flow (server startup → module loading → rendering → user interactions), see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Configuration
 
@@ -96,13 +142,13 @@ Available colors: `blue`, `green`, `orange`, `purple`, `cyan`, `pink`, `red`, `y
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `/` | Focus search |
-| `Esc` | Clear search / close modal |
-| `T` | Toggle light/dark theme |
-| `E` | Toggle edit mode |
-| `Enter` | Submit modal form |
+| Key     | Action                     |
+| ------- | -------------------------- |
+| `/`     | Focus search               |
+| `Esc`   | Clear search / close modal |
+| `T`     | Toggle light/dark theme    |
+| `E`     | Toggle edit mode           |
+| `Enter` | Submit modal form          |
 
 ## Docker
 
