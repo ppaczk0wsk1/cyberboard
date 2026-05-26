@@ -11,7 +11,7 @@ git clone <repo-url> cyberboard && cd cyberboard
 python3 server.py
 ```
 
-Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html)
+Open [http://localhost:8900](http://localhost:8900)
 
 ## Features
 
@@ -51,7 +51,7 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 
 ```
 cyberboard/
-├── dashboard.html           # HTML shell + import map
+├── index.html           # HTML shell + import map
 ├── style.css                # All styles
 ├── app.js                   # Root Preact component + mount
 ├── lib/

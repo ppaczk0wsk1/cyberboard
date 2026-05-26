@@ -2,7 +2,7 @@
   "name": "Cyberboard",
   "short_name": "Cyberboard",
   "description": "Homelab dashboard — services, tutorials & tools",
-  "start_url": "./dashboard.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f1117",
   "theme_color": "#6c8cff",

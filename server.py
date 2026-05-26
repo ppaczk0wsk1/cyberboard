@@ -123,7 +123,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = http.server.HTTPServer(("0.0.0.0", PORT), Handler)
-    print(f"Cyberboard running at http://localhost:{PORT}/dashboard.html")
+    print(f"Cyberboard running at http://localhost:{PORT}/index.html")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

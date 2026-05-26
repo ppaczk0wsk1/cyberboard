@@ -1,6 +1,6 @@
 const CACHE_NAME = "cyberboard-v5";
 const ASSETS = [
-  "./dashboard.html",
+  "./index.html",
   "./style.css",
   "./app.js",
   "./manifest.json",
