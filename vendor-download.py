@@ -16,7 +16,10 @@ FILES = {
 
 # esm.sh bakes in absolute import paths — fix them to bare specifiers for the import map
 FIXUPS = {
-    "preact-hooks.js": ('from"/stable/preact@10.25.4/es2022/preact.mjs"', 'from"preact"'),
+    "preact-hooks.js": (
+        'from"/stable/preact@10.25.4/es2022/preact.mjs"',
+        'from"preact"',
+    ),
     "lucide-preact.js": ('from"/preact@^10.5.13?target=es2022"', 'from"preact"'),
 }
 

@@ -16,6 +16,7 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 ## Features
 
 **Services Dashboard**
+
 - 41 pre-configured homelab services (Linkwarden, Vaultwarden, Nextcloud, Jellyfin, Grafana, and more)
 - Server-side health checks with live status dots (green/red) — works with HTTPS, self-signed certs, auth-protected services
 - Auto-refresh every 60 seconds
@@ -23,10 +24,12 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 - Favorite services with a star — highlighted with a yellow border
 
 **Tutorials & Learning**
+
 - 28 tutorial cards covering Terraform, Kubernetes, Docker, CI/CD, Ansible, Linux networking, and more
 - Searchable and filterable alongside services
 
 **Built-in Editor** (press `E` or click the pencil icon)
+
 - Add, edit, and delete services, tutorials, and bookmarks
 - Drag-and-drop to reorder cards
 - Searchable emoji picker (250+ emojis organized by category) and color selector
@@ -35,6 +38,7 @@ Open [http://localhost:8900/dashboard.html](http://localhost:8900/dashboard.html
 - Reset to defaults
 
 **Extras**
+
 - Search across everything with `/`
 - Light/dark theme toggle (`T`)
 - Weather widget (via wttr.in, no API key)
@@ -97,11 +101,11 @@ cyberboard/
 
 `server.py` is a minimal Python HTTP server (stdlib only, no pip installs) with three endpoints:
 
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/*` | GET | Serve static files (HTML, CSS, JS) |
-| `/api/health` | GET | Ping all service URLs server-side, return `{id: true/false}` |
-| `/api/save` | POST | Write the full JSON body to `data.json` |
+| Endpoint      | Method | Purpose                                                      |
+| ------------- | ------ | ------------------------------------------------------------ |
+| `/*`          | GET    | Serve static files (HTML, CSS, JS)                           |
+| `/api/health` | GET    | Ping all service URLs server-side, return `{id: true/false}` |
+| `/api/save`   | POST   | Write the full JSON body to `data.json`                      |
 
 Health checks run server-side in parallel (up to 20 threads), accept self-signed certs, and treat any HTTP response (including 401/403) as "online." Only connection failures and timeouts mean "down."
 
@@ -138,13 +142,13 @@ Available colors: `blue`, `green`, `orange`, `purple`, `cyan`, `pink`, `red`, `y
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `/` | Focus search |
-| `Esc` | Clear search / close modal |
-| `T` | Toggle light/dark theme |
-| `E` | Toggle edit mode |
-| `Enter` | Submit modal form |
+| Key     | Action                     |
+| ------- | -------------------------- |
+| `/`     | Focus search               |
+| `Esc`   | Clear search / close modal |
+| `T`     | Toggle light/dark theme    |
+| `E`     | Toggle edit mode           |
+| `Enter` | Submit modal form          |
 
 ## Docker
 
