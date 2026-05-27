@@ -2,7 +2,7 @@
 
 A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — built with Preact, backed by a JSON file, no build step.
 
-![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
+![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
 ## Quick Start
 
