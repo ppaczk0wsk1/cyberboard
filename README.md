@@ -4,6 +4,8 @@ A self-contained homelab dashboard for managing self-hosted services, tutorials,
 
 ![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
+<img width="1061" height="1753" alt="Cyberboard" src="https://github.com/user-attachments/assets/239cf9ce-1f2a-4803-9224-6e5e20cb7ac0" />
+
 ## Quick Start
 
 ```bash
