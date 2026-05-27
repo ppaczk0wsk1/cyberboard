@@ -1,11 +1,10 @@
 # Cyberboard
 
-A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — built with Preact, backed by a JSON file, no build step.
+A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes. Built with Preact, backed by a JSON file, no build step.
 
 ![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
 <img width="1152" height="648" alt="2026-05-27 15-49-17" src="https://github.com/user-attachments/assets/fe5f3b53-6f0f-478a-b080-819e04294188" />
-
 
 ## Quick Start
 
@@ -21,10 +20,10 @@ Open [http://localhost:8900](http://localhost:8900)
 **Services Dashboard**
 
 - 41 pre-configured homelab services (Linkwarden, Vaultwarden, Nextcloud, Jellyfin, Grafana, and more)
-- Server-side health checks with live status dots (green/red) — works with HTTPS, self-signed certs, auth-protected services
+- Server-side health checks with live status dots (green/red). Works with HTTPS, self-signed certs, auth-protected services
 - Auto-refresh every 60 seconds
 - Category filter tabs (Productivity, Media, Infrastructure, Security, Monitoring, Development, Networking, Storage, Automation)
-- Favorite services with a star — highlighted with a yellow border
+- Favorite services with a star. Highlighted with a yellow border
 
 **Tutorials & Learning**
 
@@ -113,7 +112,7 @@ cyberboard/
 
 Health checks run server-side in parallel (up to 20 threads), accept self-signed certs, and treat any HTTP response (including 401/403) as "online." Only connection failures and timeouts mean "down."
 
-The dashboard loads `data.json` on startup and sends `POST /api/save` whenever you make a change (debounced 400ms). All data lives in one JSON file — easy to back up, version control, or sync.
+The dashboard loads `data.json` on startup and sends `POST /api/save` whenever you make a change (debounced 400ms). All data lives in one JSON file. Easy to back up, version control, or sync.
 
 ## Configuration
 
@@ -154,13 +153,13 @@ Available colors: `blue`, `green`, `orange`, `purple`, `cyan`, `pink`, `red`, `y
 
 ## Docker
 
-**Online (default)** — uses CDN for JS dependencies, smaller image:
+**Online (default)**. Uses CDN for JS dependencies, smaller image:
 
 ```bash
 docker compose up -d
 ```
 
-**Offline** — vendors all JS dependencies into the image, works on isolated networks:
+**Offline**. Vendors all JS dependencies into the image, works on isolated networks:
 
 ```bash
 docker compose --profile offline up -d cyberboard-offline
