@@ -111,8 +111,6 @@ Health checks run server-side in parallel (up to 20 threads), accept self-signed
 
 The dashboard loads `data.json` on startup and sends `POST /api/save` whenever you make a change (debounced 400ms). All data lives in one JSON file — easy to back up, version control, or sync.
 
-For a detailed walkthrough of the full execution flow (server startup → module loading → rendering → user interactions), see [ARCHITECTURE.md](ARCHITECTURE.md).
-
 ## Configuration
 
 **Change the port:**
