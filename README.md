@@ -2,12 +2,12 @@
 
 A self-contained homelab dashboard for managing self-hosted services, tutorials, bookmarks, and quick notes — built with Preact, backed by a JSON file, no build step.
 
-![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
+![Dark theme](https://img.shields.io/badge/theme-dark%20%2F%20light-6c8cff) ![No dependencies](https://img.shields.io/badge/deps-zero-4ade80) ![PWA](https://img.shields.io/badge/PWA-installable-fb923c)
 
 ## Quick Start
 
 ```bash
-git clone <repo-url> cyberboard && cd cyberboard
+git clone https://github.com/ppaczk0wsk1/cyberboard && cd cyberboard
 python3 server.py
 ```
 
@@ -83,9 +83,10 @@ cyberboard/
 ├── favicon.svg              # SVG favicon
 ├── icon-192.png             # PWA icon 192x192
 ├── icon-512.png             # PWA icon 512x512
-├── Dockerfile
+├── Dockerfile               # Online (CDN-backed)
+├── Dockerfile.offline       # Offline (vendors JS dependencies)
 ├── docker-compose.yml
-├── ARCHITECTURE.md          # Full execution flow walkthrough
+├── vendor-download.py       # Downloads vendor deps for offline builds
 └── README.md
 ```
 
@@ -150,10 +151,16 @@ Available colors: `blue`, `green`, `orange`, `purple`, `cyan`, `pink`, `red`, `y
 
 ## Docker
 
-**Using Docker Compose (recommended):**
+**Online (default)** — uses CDN for JS dependencies, smaller image:
 
 ```bash
 docker compose up -d
+```
+
+**Offline** — vendors all JS dependencies into the image, works on isolated networks:
+
+```bash
+docker compose --profile offline up -d cyberboard-offline
 ```
 
 **Or build and run manually:**
@@ -171,12 +178,6 @@ docker run -d -p 8900:8900 -v ./data.json:/app/data.json --name cyberboard cyber
 # docker-compose.yml
 ports:
   - "3000:8900"
-```
-
-Or with `docker run`:
-
-```bash
-docker run -d -p 3000:8900 -v ./data.json:/app/data.json cyberboard
 ```
 
 ## License
